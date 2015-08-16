@@ -1,0 +1,17 @@
+---
+- name: create ramdisk
+  user: root
+  hosts: ramdisk
+
+  vars_prompt:
+    - name: mountpoint
+      prompt: 'Where do you want to mount the RAMDisk?'
+      private: no
+    - name: size
+      prompt: 'RAMDisk size? (xG xM, etc.)'
+      private: no
+
+  tasks:
+    - name: 'Create ramdisk and mount to fstab'
+      mount: name="{{ mountpoint }}" src=tmpfs fstype=tmpfs opts=nodev,nosuid,size="{{ size }}" state=mounted
+
